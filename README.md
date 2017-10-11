@@ -2,9 +2,9 @@
 
 Run the sed substitute command on reddit comments.
 
-![example screenshot](https://i.imgur.com/TksQZdg.png)
+![example screenshot](https://i.imgur.com/SnAIoMs.png)
 
-I am running it with the user [u/_sed_](https://www.reddit.com/user/_sed_).
+I am running it with the user [/u/\_sed\_](https://www.reddit.com/user/_sed_).
 
 # Examples
 
@@ -23,7 +23,7 @@ I am running it with the user [u/_sed_](https://www.reddit.com/user/_sed_).
 # What it does
 
 1. Matches reddit comments that include the pattern `s/pattern/replacement/flag` 
-2. Runs the command `echo "parent comment" | sed "s/pattern/replacement/flag"` using `subprocess.Popen(https://docs.python.org/2/library/subprocess.html)`
+2. Runs the command `echo "parent comment" | sed "s/pattern/replacement/flag"` using subprocess.Popen(https://docs.python.org/2/library/subprocess.html)
 3. Replies with the output of the command
 
 Full regex: `/(?:\s+|^)s\/((?:[^/\\]|\\.)+)\/((?:[^/\\]|\\.)*)\/([0-9gI]*)/`
@@ -46,4 +46,4 @@ Don't try this command in your terminal!
 
 # I want to run it myself for some reason
 
-Download [praw](https://praw.readthedocs.io/en/latest/), add your API keys to the [praw.ini file](https://github.com/ndri/reddit-sedbot/blob/master/praw.ini) and you're good to go.
+Download [praw](https://praw.readthedocs.io/en/latest/), add your API keys to the [praw.ini file](https://github.com/ndri/reddit-sedbot/blob/master/praw.ini) and run reddit-sedbot.py
