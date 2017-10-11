@@ -25,7 +25,7 @@ See more sed examples at http://www.grymoire.com/Unix/Sed.html
 # What it does
 
 1. Matches reddit comments that start with `sed` and include the pattern `s/pattern/replacement/flag`
-2. Runs the command `echo "parent comment" | sed "s/pattern/replacement/flag"` using subprocess.Popen(https://docs.python.org/2/library/subprocess.html)
+2. Runs the command `echo "parent comment" | sed "s/pattern/replacement/flag"` using [subprocess.Popen](https://docs.python.org/2/library/subprocess.html)
 3. Replies with the output of the command
 
 Full regex: `/(?:\s+|^)s\/((?:[^/\\]|\\.)+)\/((?:[^/\\]|\\.)*)\/([0-9gI]*)/`
