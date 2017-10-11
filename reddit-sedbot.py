@@ -1,12 +1,16 @@
-import praw, re
+import praw, re, json
 from subprocess import Popen, PIPE
 
 regex = r"(?:\s+|^)s\/((?:[^/\\]|\\.)+)\/((?:[^/\\]|\\.)*)\/([0-9gI]*)"
+footer = "\n\n---\n^^reddit ^^sedbot ^^| ^^[info](https://github.com/ndri/reddit-sedbot)"
 
 reddit = praw.Reddit("reddit-sedbot")
 subreddit = reddit.subreddit("all")
 
-footer = "\n\n---\n^^reddit ^^sedbot ^^| ^^[info](https://github.com/ndri/reddit-sedbot)"
+with open("blacklist.json") as f:
+    blacklist = json.loads(f.read())
+for sub in blacklist["disallowed"] + blacklist["permission"]:
+    subreddit.filters.add(sub)
 
 for comment in subreddit.stream.comments():
     text = comment.body
