@@ -3,35 +3,38 @@ from subprocess import Popen, PIPE
 
 regex = r"(?:\s+|^)s\/((?:[^/\\]|\\.)+)\/((?:[^/\\]|\\.)*)\/([0-9gI]*)"
 
-reddit = praw.Reddit("bot1")
+reddit = praw.Reddit("reddit-sedbot")
 subreddit = reddit.subreddit("all")
 
 footer = "\n\n---\n^^reddit ^^sedbot ^^| ^^[info](https://github.com/ndri/reddit-sedbot)"
 
 for comment in subreddit.stream.comments():
     text = comment.body
-    matches = re.findall(regex, text)
 
-    if matches:
-        try:
-            parent = comment.parent().body
-        except:
-            print("Match but no parent: " + comment.permalink())
-            continue
+    if text.lstrip("`").lstrip().startswith("sed"):
+        matches = re.findall(regex, text)
 
-        command = ["sed"]
+        if matches:
+            try:
+                parent = comment.parent().body
+            except:
+                print("Match but no parent: " + comment.permalink())
+                continue
 
-        for match in matches:
-            command += ["-e", "s/{}/{}/{}".format(match[0], match[1], match[2])]
+            command = ["sed"]
 
-        echo = Popen(["echo", "-n", parent], stdout = PIPE)
-        sed = Popen(command, stdin = echo.stdout, stdout = PIPE)
-        reply = sed.stdout.read().decode("utf-8")
+            for match in matches:
+                command += ["-e", "s/{}/{}/{}".format(match[0], match[1], match[2])]
 
-        print()
-        print(parent)
-        print(text)
-        print(reply)
+            echo = Popen(["echo", "-n", parent], stdout = PIPE)
+            sed = Popen(command, stdin = echo.stdout, stdout = PIPE)
+            reply = sed.stdout.read().decode("utf-8")
 
-        if reply != parent:
-            comment.reply(reply + footer)
+            print()
+            print(comment.permalink())
+            print(parent)
+            print(text)
+            print(reply)
+
+            if reply != parent:
+                comment.reply(reply + footer)
