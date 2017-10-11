@@ -20,9 +20,11 @@ I am running it with the user [/u/\_sed\_](https://www.reddit.com/user/_sed_).
     | "s/[aeiouy]/o/g s/$/!/" - /u/cheeky_redditor
     || "mo hovorcroft os foll of ools!" - /u/_sed_
 
+See more sed examples at http://www.grymoire.com/Unix/Sed.html
+
 # What it does
 
-1. Matches reddit comments that include the pattern `s/pattern/replacement/flag` 
+1. Matches reddit comments that include the pattern `s/pattern/replacement/flag`
 2. Runs the command `echo "parent comment" | sed "s/pattern/replacement/flag"` using subprocess.Popen(https://docs.python.org/2/library/subprocess.html)
 3. Replies with the output of the command
 
