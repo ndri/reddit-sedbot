@@ -41,4 +41,6 @@ for comment in subreddit.stream.comments():
             print(reply)
 
             if reply != parent:
-                comment.reply(reply + footer)
+                if footer not in reply:
+                    reply += footer
+                comment.reply(reply)
