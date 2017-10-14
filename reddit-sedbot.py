@@ -20,7 +20,7 @@ for comment in subreddit.stream.comments():
 
         if matches:
             try:
-                parent = comment.parent().body.rstrip(footer)
+                parent = comment.parent().body.replace(footer, "")
             except:
                 print("Match but no parent: " + comment.permalink())
                 continue
