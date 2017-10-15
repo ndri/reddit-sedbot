@@ -1,7 +1,7 @@
 import praw, re, json
 from subprocess import Popen, PIPE
 
-regex = r"(?:\s+|^)s\/((?:[^/\\]|\\.)+)\/((?:[^/\\]|\\.)*)\/([0-9gI]*)"
+regex = r"(?:\s+|^|'|")s\/((?:[^/\\]|\\.)+)\/((?:[^/\\]|\\.)*)\/([0-9gI]*)"
 footer = "\n\n---\n^^reddit ^^sedbot ^^| ^^[info](https://github.com/ndri/reddit-sedbot)"
 
 reddit = praw.Reddit("reddit-sedbot")
