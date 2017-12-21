@@ -9,7 +9,7 @@ I am running it with the user [/u/\_sed\_](https://www.reddit.com/user/_sed_).
 # Examples
 
     "i am a bad person" - /u/sad_redditor
-    | "sed s/bad/good" - /u/wholesome_redditor
+    | "sed s/bad/good/" - /u/wholesome_redditor
     || "i am a good person" - /u/_sed_
 
     "sudo apt-get install gentoo" - /u/linux_redditor
