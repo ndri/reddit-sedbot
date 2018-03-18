@@ -5,12 +5,9 @@ regex = r"(?:\s+|^|'|\")s\/((?:[^/\\]|\\.)+)\/((?:[^/\\]|\\.)*)\/([0-9gI]*)"
 footer = "\n\n---\n^^reddit ^^sedbot ^^| ^^[info](https://github.com/ndri/reddit-sedbot)"
 
 
-def main():
-    reddit = praw.Reddit("reddit-sedbot")
+def main(reddit, blacklist):
     subreddit = reddit.subreddit("all")
 
-    with open("blacklist.json") as f:
-        blacklist = json.loads(f.read())
     for sub in blacklist["disallowed"] + blacklist["permission"]:
         subreddit.filters.add(sub)
 
@@ -26,7 +23,7 @@ def main():
 
                 if not matches:
                     continue
-                    
+
                 try:
                     parent = comment.parent().body.replace(footer, "")
                 except:
@@ -58,4 +55,9 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    reddit = praw.Reddit("reddit-sedbot")
+
+    with open("blacklist.json") as f:
+        blacklist = json.loads(f.read())
+
+    main(reddit, blacklist)
