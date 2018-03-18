@@ -14,40 +14,44 @@ def main():
     for sub in blacklist["disallowed"] + blacklist["permission"]:
         subreddit.filters.add(sub)
 
-    while 1:
+    while True:
         try:
             for comment in subreddit.stream.comments():
                 text = comment.body
 
-                if text.lstrip("`").lstrip().startswith("sed"):
-                    matches = re.findall(regex, text)
+                if not text.lstrip("`").lstrip().startswith("sed"):
+                    continue
 
-                    if matches:
-                        try:
-                            parent = comment.parent().body.replace(footer, "")
-                        except:
-                            print("Match but no parent: " + comment.permalink)
-                            continue
+                matches = re.findall(regex, text)
 
-                        command = ["sed"]
+                if not matches:
+                    continue
+                    
+                try:
+                    parent = comment.parent().body.replace(footer, "")
+                except:
+                    print("Match but no parent: " + comment.permalink)
+                    continue
 
-                        for match in matches:
-                            command += ["-e", "s/{}/{}/{}".format(match[0], match[1], match[2])]
+                command = ["sed"]
 
-                        echo = Popen(["echo", "-n", parent], stdout = PIPE)
-                        sed = Popen(command, stdin = echo.stdout, stdout = PIPE)
-                        reply = sed.stdout.read().decode("utf-8")
+                for match in matches:
+                    command += ["-e", "s/{}/{}/{}".format(match[0], match[1], match[2])]
 
-                        print()
-                        print(comment.permalink)
-                        print(parent)
-                        print(text)
-                        print(reply)
+                echo = Popen(["echo", "-n", parent], stdout = PIPE)
+                sed = Popen(command, stdin = echo.stdout, stdout = PIPE)
+                reply = sed.stdout.read().decode("utf-8")
 
-                        if reply != parent and comment.author != reddit.user.me():
-                            if footer not in reply:
-                                reply += footer
-                            comment.reply(reply)
+                print()
+                print(comment.permalink)
+                print(parent)
+                print(text)
+                print(reply)
+
+                if reply != parent and comment.author != reddit.user.me():
+                    if footer not in reply:
+                        reply += footer
+                    comment.reply(reply)
 
         except Exception as error:
             print(error)
